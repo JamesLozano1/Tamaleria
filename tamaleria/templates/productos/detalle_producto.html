@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalles del Producto</title>
+</head>
+<body>
+        <h1>Detalles del Producto</h1>
+        <div style="display: flex; align-items: center; text-align: start; margin-left: 20rem; padding: 1rem;">
+            <div style="padding: 5rem;">
+                {% if producto.imagen %}
+                <img src="{{ producto.imagen.url }}" width="200px" height="200px">
+                {% else %}
+                <img src="{% static 'images/SinImagen.png' %}" alt="LogoImagen" width="90px" height="90px">
+                {% endif %}
+            </div>
+            <div style="padding: 5rem;">
+                <h1>{{ producto.nombre }}</h1>
+                <h2>{{ producto.descripcion }}</h2>
+                <h1>Precio: ${{ producto.precio }}</h1>
+                <h2>Cantidad: {{ producto.cantidad }}</h2>
+        
+        
+                <a href="{% url 'agregar_al_carrito' producto.id %}" class="btn">Agregar al carrito</a>
+                
+                <a class="Volver" href="{% url 'producto' %}">Volver</a>
+                {% if request.user.is_authenticated %}
+                    <a class="Modificar" href="{% url 'editar_producto' producto.id %}">Modificar</a>
+                {% endif %}
+            </div>
+        </div>
+    <style>
+    
+    .btn{
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #198a1e; 
+        color: #fff;
+        border-radius: 5px;
+    }
+    .btn:hover{
+        background-color: #0056b3;
+    }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0; 
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h2 {
+            margin-top: 10px;
+        }
+
+            .product-details {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .product-details img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 10px;
+        }
+
+        .Volver,
+        .Modificar {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-top: 20px;
+            text-align: center;
+            text-decoration: none;
+            background-color: #198a1e; 
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .Volver:hover,
+        .Modificar:hover {
+            background-color: #0056b3; 
+        }
+
+        .Volver {
+            margin-right: 10px;
+        }
+
+    </style>
+</body>
+</html>

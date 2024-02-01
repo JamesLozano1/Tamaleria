@@ -1,0 +1,161 @@
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css">
+<nav class="home">
+    <ul>
+        <li>
+            <a href="{% url 'inicio' %}" >
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30px" height="30px" viewBox="0,0,256,256">
+                <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(5.12,5.12)"><path d="M25,1.05078c-0.2175,0 -0.43414,0.06898 -0.61914,0.20898l-23,17.95117c-0.43,0.34 -0.50992,0.9682 -0.16992,1.4082c0.34,0.43 0.9682,0.50992 1.4082,0.16992l1.38086,-1.07812v26.28906c0,0.55 0.45,1 1,1h14v-18h12v18h14c0.55,0 1,-0.45 1,-1v-26.28906l1.38086,1.07812c0.19,0.14 0.39914,0.21094 0.61914,0.21094c0.3,0 0.58906,-0.13086 0.78906,-0.38086c0.34,-0.44 0.26008,-1.0682 -0.16992,-1.4082l-23,-17.95117c-0.185,-0.14 -0.40164,-0.20898 -0.61914,-0.20898zM35,5v1.05078l6,4.67969v-5.73047z"></path></g></g>
+                </svg></a>
+        </li>
+    </ul>
+</nav>
+
+{% if productos_en_carrito %}
+    <h1>Carrito de Compras</h1>
+    <form method="post" id="comprarForm">
+        {% csrf_token %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Nombre</th>
+                    <th>Precio unidad</th>
+                    <th>Cantidad</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in productos_en_carrito %}
+                    <tr>
+                        <td><img src="{{ item.producto.imagen.url }}" style="width: 90px;"></td>
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.producto.precio}}</td>
+                        <td>
+                            <input type="number" min="1" max="{{ item.producto.cantidad }}" class="cart-quantity" name="quantity_{{ item.producto.id }}" value="{{ item.cantidad }}">
+                        </td>
+                        <td>
+                            <a href="{% url 'eliminar_del_carrito' item.producto.id %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="30px" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M135.2 17.7C140.6 6.8 151.7 0 163.8 0H284.2c12.1 0 23.2 6.8 28.6 17.7L320 32h96c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 96 0 81.7 0 64S14.3 32 32 32h96l7.2-14.3zM32 128H416V448c0 35.3-28.7 64-64 64H96c-35.3 0-64-28.7-64-64V128zm96 64c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16zm96 0c-8.8 0-16 7.2-16 16V432c0 8.8 7.2 16 16 16s16-7.2 16-16V208c0-8.8-7.2-16-16-16z"/></svg>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <label for="direccion">Dirección de entrega:</label>
+        <input type="text" name="direccion" id="direccion" required>
+        <button type="submit">Comprar</button>
+    </form>
+    <p>Total: $<span id="cart-total">{{ total }}</span></p>
+
+{% else %}
+<center>
+
+    <div class="animate__bounce1">
+        <svg xmlns="http://www.w3.org/2000/svg" height="90px" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#010101}</style><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg>
+        <h1 class="vacio">Tu carrito esta vacio</h1>
+    </div>
+</center>
+{% endif %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function updateTotal() {
+            var total = 0;
+            $('.cart-quantity').each(function() {
+                var quantity = parseInt($(this).val());
+                if (quantity > 0) {
+                    var price = parseFloat($(this).closest('tr').find('td:eq(2)').text());
+                    total += quantity * price;
+                }
+            });
+            $('#cart-total').text(total.toFixed(3)); 
+        }
+
+        $('.cart-quantity').on('change', function() {
+            updateTotal();
+        });
+
+        $('#comprarForm').submit(function(e) {
+            e.preventDefault(); 
+
+            $.ajax({
+                type: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function(response) {
+                    console.log('Compra realizada con éxito');
+
+                    // Construir el mensaje de WhatsApp con detalles de la compra
+                    var direccion = $('#direccion').val();
+                    var mensaje = '¡Compra realizada!\nDirección: ' + direccion + '\nProductos:\n';
+
+                    // Iterar sobre los productos en el carrito
+                    $('.cart-quantity').each(function() {
+                        var quantity = parseInt($(this).val());
+                        if (quantity > 0) {
+                            var nombreProducto = $(this).closest('tr').find('td:eq(1)').text();
+                            var precioProducto = parseFloat($(this).closest('tr').find('td:eq(2)').text());
+                            mensaje += '- ' + nombreProducto + ': ' + quantity + ' unidades, $' + (quantity * precioProducto).toFixed(3) + '\n';
+                        }
+                    });
+
+                    mensaje += 'Total: $' + $('#cart-total').text();
+
+                    // Reemplaza con tu número de WhatsApp
+                    var numeroWhatsApp = '+573006221308';
+
+                    // Construir el enlace de redirección a WhatsApp
+                    var enlaceWhatsApp = 'https://wa.me/' + numeroWhatsApp + '?text=' + encodeURIComponent(mensaje);
+                    window.location.href = enlaceWhatsApp;
+                },
+                error: function(error) {
+                    console.error('Error al realizar la compra', error);
+                }
+            });
+        });
+    });
+</script>
+
+<style>
+    nav ul li {
+        list-style: none;
+    }
+
+    .home{
+        width: 5rem;
+        background-color: #198a1e;
+        border-radius: 5rem;
+    }
+
+    .animate__bounce1{
+        padding: 10rem;
+    }
+    .vacio{
+        text-align: center;
+        padding: 10vh;
+    }
+    table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        td {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+</style>

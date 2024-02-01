@@ -1,0 +1,103 @@
+{% extends 'layouts/base.html' %}
+
+{% block content %}
+
+{% load static %}
+<!-- <center>
+    <h1 style="padding: 3rem;">{{titulo}}</h1>
+</center> -->
+
+<center>
+    <div style="display: flex; justify-content: space-evenly;">
+        <form method="GET" action="{% url 'buscar_productos_vista' %}">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+            <input type="text" name="q" placeholder="Buscar productos">
+        </form>
+        <a href="{% url 'producto' %}" class="btn">Todo</a>
+    </div>
+</center>
+<br>
+<hr>
+<br>
+<main class="container">
+    {% if productos %}
+        {% for producto in productos %}
+            <div class="card shadow">
+                <center>
+                    {% if producto.imagen %}
+                        <img src="{{ producto.imagen.url }}" style="width: 90px;">
+                    {% else %}
+                        <img src="{% static 'images/SinImagen.png' %}" alt="LogoImagen" width="90px">
+                    {% endif %}
+                    
+                    <p><span>Producto:</span> {{ producto.nombre }}</p>
+                    <p><span>Precio: </span> <span class="pre">$</span> {{ producto.precio }}</p>
+                    <p>cantidad: {{ producto.cantidad }}</p>
+                    
+                    <a href="{% url 'detalle_producto' producto.id %}" class="btn">Ver más</a><br>
+
+                </center>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <p>No se encontraron productos que coincidan con la búsqueda.</p>
+    {% endif %}
+</main>
+
+
+<style>
+    .btn{
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #198a1e; 
+        color: #fff;
+        border-radius: 5px;
+    }
+    .btn-primary:hover{
+        background-color: #0056b3;
+    }
+    .ver{
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        text-align: center;
+        text-decoration: none;
+        background-color: #198a1e; 
+        color: #fff;
+        border-radius: 5px;
+    }
+    .ver:hover{
+        background-color: #0056b3;
+    }
+
+    .pre{
+        color: red;
+    }
+    span{
+        color: blueviolet;
+    }
+    .container{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .card{
+        border: 1px solid #ddd;
+        padding: 10px;
+        margin: 10px;
+        text-align: center;
+        width: 250px; 
+        box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    }
+    input{
+        height: 50px;
+        width: 300px;
+    }
+</style>
+
+{% endblock %}

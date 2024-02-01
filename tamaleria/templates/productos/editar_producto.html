@@ -1,0 +1,43 @@
+{% block content %}
+<div class="product-edit">
+    <h1>Modificando el Producto</h1>
+    
+    <form method="post" class="edit-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-button">Guardar cambios</button>
+    </form>
+    <p><a href="{% url 'producto' %}" class="back-link">Volver a la lista de productos</a></p>
+</div>
+
+<style>
+    .product-edit {
+        display: flex;
+        max-width: 600px; 
+        margin: 0 auto; 
+        padding: 20px; 
+        border: 1px solid #ccc; 
+        border-radius: 5px; 
+        background-color: #f9f9f9; 
+    }
+
+    .back-link {
+        text-decoration: none;
+        color: #007bff; 
+    }
+
+    .submit-button {
+        background-color: #007bff;
+        color: #fff; 
+        border: none; 
+        padding: 10px 20px; 
+        border-radius: 5px; 
+        cursor: pointer; 
+    }
+
+    .submit-button:hover {
+        background-color: #0056b3; 
+    }
+
+</style>
+{% endblock %}

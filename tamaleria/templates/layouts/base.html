@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <nav class="navbar">
+        <ul style="display: flex; justify-content: space-evenly;">
+            <li>
+                <a href="{% url 'inicio' %}">Inicio</a>
+            </li>
+            <li>
+                <a href="{% url 'producto' %}">Productos</a>
+            </li>
+            <li>
+                <a href="{% url 'Añadir_producto' %}">Añadir producto</a>
+            </li>
+            <li>
+                <a href="{% url 'Añadir_categoria' %}">Añadir categoria</a>
+            </li>
+            {% if request.user.is_authenticated %}
+                <li>
+                    <a href="{% url 'logout' %}">Salir</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'ver_carrito' %}"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#ffffff}</style><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"/></svg></a>
+            </li>
+        </ul>
+            <div style="display: flex; justify-content:center ;">
+                <h1 style="color: #ffffff; display: flex; justify-content: space-evenly; ">Doña Maria</h1>
+                <img width="70px" src="{% static 'logo.jpeg' %}" alt="Logo de Doña Maria">
+            </div>
+
+
+    </nav>    
+    <div style="padding: 2rem;">
+        {% block content %}
+        {% endblock %}
+    </div>
+    <footer>
+        <div id="contact-info">
+          <p>Dirección: Mz 1 Cs 3 esquina B/Popular Ibague-Tolima</p>
+          <p>Contacto: Blanca Bejarano #Celular 3006221308</p>
+        </div>
+    </footer>
+    <style>
+            footer {
+  background-color: #198a1e;
+  color: #ffffff;
+  text-align: center;
+  padding: 2px 0;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+        *{
+            padding: 0;
+            margin: 0;
+        }
+
+        .cart{
+            color: aliceblue;
+        }
+
+        .navbar {
+            background-color: #198a1e;
+            box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+        }
+
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 20px 24px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        } 
+
+        ul{
+            list-style: none;
+        }
+    </style>
+</body>
+</html>
